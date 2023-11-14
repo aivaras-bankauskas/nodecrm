@@ -1,9 +1,11 @@
 {
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "nodemon --exec node --loader ts-node/esm src/app.ts"
+    "build": "nodemon --watch 'src/**/*.ts' --exec 'npm run compile && node dist/server.js'",
+    "dev": "ts-node-dev ./src/server.ts",
+    "compile": "tsc"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -17,6 +19,7 @@
     "eslint": "^8.53.0",
     "nodemon": "^3.0.1",
     "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"
   }
 }
