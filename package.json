@@ -4,6 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "build": "nodemon --watch 'src/**/*.ts' --exec 'npm run compile && node dist/server.js'",
+    "start": "node dist/server.js",
     "dev": "ts-node-dev ./src/server.ts",
     "compile": "tsc"
   },
