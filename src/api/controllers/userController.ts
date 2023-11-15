@@ -1,5 +1,5 @@
 import handleRequest from '../../utils/handlers/asyncHandler';
-import { User } from '../models/user';
+import { User, validate } from '../models/user';
 
 const userController = {
 
@@ -9,6 +9,10 @@ const userController = {
 	}),
 
 	store: handleRequest(async (req, res) => {
+		const { error } = validate(req.body);
+		if (error) {
+			throw new Error(error.details[0].message);
+		}
 		const user = new User(req.body);
 		await user.save();
 		res.status(201).json(user);
@@ -25,6 +29,11 @@ const userController = {
 	}),
 
 	update: handleRequest(async (req, res) => {
+		const { error } = validate(req.body);
+		if (error) {
+			throw new Error(error.details[0].message);
+		}
+
 		const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
 		if (!user) {
 			res.status(404).json({ message: 'User not found' });
