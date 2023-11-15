@@ -9,6 +9,18 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended'
 	],
 	'overrides': [
+		{
+			'files': ['*.ts', '*.tsx'],
+			'rules': {
+				'@typescript-eslint/no-unused-vars': [
+					'warn', {
+						'args': 'all',
+						'argsIgnorePattern': '^_',
+						'ignoreRestSiblings': true
+					}
+				]
+			}
+		}
 	],
 	'parser': '@typescript-eslint/parser',
 	'parserOptions': {
