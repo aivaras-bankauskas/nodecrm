@@ -1,4 +1,5 @@
 import handleRequest from '../../utils/handlers/asyncHandler';
+import { checkIfEmailUnique } from '../../utils/helpers/databaseHelpers';
 import { User, validate } from '../models/user';
 
 const userController = {
@@ -13,6 +14,8 @@ const userController = {
 		if (error) {
 			throw new Error(error.details[0].message);
 		}
+		await checkIfEmailUnique(User, req.body.email);
+
 		const user = new User(req.body);
 		await user.save();
 		res.status(201).json(user);
@@ -29,12 +32,26 @@ const userController = {
 	}),
 
 	update: handleRequest(async (req, res) => {
+		const currentUserId = req.params.id;
+
 		const { error } = validate(req.body);
 		if (error) {
 			throw new Error(error.details[0].message);
 		}
 
-		const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+		if (req.body.email) {
+			const existingUser = await User.findById(currentUserId);
+			if (!existingUser) {
+				res.status(404).json({ message: 'User not found' });
+
+				return;
+			}
+			if (req.body.email !== existingUser.email) {
+				await checkIfEmailUnique(User, req.body.email, existingUser._id.toString());
+			}
+		}
+
+		const user = await User.findByIdAndUpdate(currentUserId, req.body, { new: true });
 		if (!user) {
 			res.status(404).json({ message: 'User not found' });
 

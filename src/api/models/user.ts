@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
 	password: { type: String, required: true }
 });
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.model<UserInterface>('User', userSchema);
 
 const validateUserSchema = Joi.object({
 	firstName: Joi.string().required().min(2),
