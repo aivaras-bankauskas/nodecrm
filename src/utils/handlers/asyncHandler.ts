@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 
-type AsyncHandler = (_req: Request, _res: Response) => Promise<void>;
+type AsyncHandler<T> = (_req: Request, _res: Response) => Promise<T>;
 
-const handleRequest = (handler: AsyncHandler) => async (req: Request, res: Response) => {
+const handleRequest = <T>(handler: AsyncHandler<T>) => async (req: Request, res: Response) => {
 	try {
-		await handler(req, res);
+		const result = await handler(req, res);
+		res.status(200).json(result);
 	} catch (error) {
 		if (error instanceof Error) {
 			res.status(400).json({ message: error.message });
