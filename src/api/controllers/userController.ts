@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import handleRequest from '../../utils/handlers/asyncHandler';
 import { checkIfEmailUnique } from '../../utils/helpers/databaseHelpers';
 import { User, validate } from '../models/user';
@@ -37,6 +38,11 @@ const userController = {
 			if (req.body.email !== existingUser.email) {
 				await checkIfEmailUnique(User, req.body.email, existingUser._id.toString());
 			}
+		}
+
+		if (req.body.password) {
+			const salt = await bcrypt.genSalt(10);
+			req.body.password = await bcrypt.hash(req.body.password, salt);
 		}
 
 		const user = await User.findByIdAndUpdate(currentUserId, req.body, { new: true });
