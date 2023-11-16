@@ -15,7 +15,7 @@ const loginController = {
 			return res.status(401).json({ message: 'Invalid email or password.' });
 		}
 
-		const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+		const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
 		res.json({ token });
 	}
 };
