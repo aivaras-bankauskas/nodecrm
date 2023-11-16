@@ -16,7 +16,13 @@ const loginController = {
 		}
 
 		const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
-		res.json({ token });
+		res.json(
+			{
+				message: 'User logged in successfully.',
+				data: user,
+				token
+			}
+		);
 	}
 };
 

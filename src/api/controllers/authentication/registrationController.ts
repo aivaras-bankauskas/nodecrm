@@ -18,7 +18,13 @@ const registrationController = {
 
 		const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
 
-		res.header('Authorization', token).json({ message: 'User registered successfully.', user, token });
+		res.header('Authorization', token).json(
+			{
+				message: 'User registered successfully.',
+				data: user,
+				token
+			}
+		);
 	})
 };
 

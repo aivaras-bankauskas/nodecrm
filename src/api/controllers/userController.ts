@@ -6,7 +6,7 @@ const userController = {
 
 	index: handleRequest(async (_req, res) => {
 		const users = await User.find();
-		res.status(200).json(users);
+		res.status(200).json({ data: users });
 	}),
 
 	show: handleRequest(async (req, res) => {
@@ -16,7 +16,7 @@ const userController = {
 
 			return;
 		}
-		res.status(200).json(user);
+		res.status(200).json({ data: user });
 	}),
 
 	update: handleRequest(async (req, res) => {
@@ -45,7 +45,12 @@ const userController = {
 
 			return;
 		}
-		res.json(user);
+		res.json(
+			{
+				message: 'User updated successfully.',
+				data: user
+			}
+		);
 	}),
 
 	destroy: handleRequest(async (req, res) => {
@@ -55,7 +60,12 @@ const userController = {
 
 			return;
 		}
-		res.json(user);
+		res.json(
+			{
+				message: 'User deleted successfully.',
+				data: user
+			}
+		);
 	})
 };
 
