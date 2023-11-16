@@ -9,18 +9,6 @@ const userController = {
 		res.status(200).json(users);
 	}),
 
-	store: handleRequest(async (req, res) => {
-		const { error } = validate(req.body);
-		if (error) {
-			throw new Error(error.details[0].message);
-		}
-		await checkIfEmailUnique(User, req.body.email);
-
-		const user = new User(req.body);
-		await user.save();
-		res.status(201).json(user);
-	}),
-
 	show: handleRequest(async (req, res) => {
 		const user = await User.findById(req.params.id);
 		if (!user) {
