@@ -4,13 +4,14 @@ type AsyncHandler<T> = (_req: Request, _res: Response) => Promise<T>;
 
 const handleRequest = <T>(handler: AsyncHandler<T>) => async (req: Request, res: Response) => {
 	try {
-		const result = await handler(req, res);
-		res.status(200).json(result);
+		await handler(req, res);
 	} catch (error) {
-		if (error instanceof Error) {
-			res.status(400).json({ message: error.message });
-		} else {
-			res.status(500).json({ message: 'An unknown error occurred' });
+		if (!res.headersSent) {
+			if (error instanceof Error) {
+				res.status(400).json({ message: error.message });
+			} else {
+				res.status(500).json({ message: 'An unknown error occurred' });
+			}
 		}
 	}
 };
