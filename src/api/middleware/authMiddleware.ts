@@ -1,8 +1,8 @@
 import { Response, NextFunction } from 'express';
-import { ExtendedRequest } from '../../interfaces/extendedRequest';
+import ExtendedRequestInterface from '../../interfaces/ExtendedRequestInterface';
 import jwt from 'jsonwebtoken';
 
-const authMiddleware = (req: ExtendedRequest, res: Response, next: NextFunction) => {
+const authMiddleware = (req: ExtendedRequestInterface, res: Response, next: NextFunction) => {
 	let token = req.header('Authorization');
 	if (token && token.startsWith('Bearer ')) {
 		token = token.slice(7, token.length);
