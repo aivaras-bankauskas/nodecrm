@@ -21,11 +21,14 @@ const loginController = {
 			}
 
 			const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
+
 			logger.info(`User logged in successfully: ${req.body.email}`);
+
+			const userResponse = await User.findById(user._id).select('-password');
 			res.json(
 				{
 					message: 'User logged in successfully.',
-					data: user,
+					data: userResponse,
 					token
 				}
 			);

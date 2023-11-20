@@ -9,13 +9,13 @@ import checkIfEmailUnique from '../../utils/helpers/checkIfEmailUniqueHelper';
 const userController = {
 
 	index: asyncHandler(async (_req, res) => {
-		const users = await User.find();
+		const users = await User.find().select('-password');
 		logger.info('Users retrieved successfully.');
 		res.status(200).json({ data: users });
 	}),
 
 	show: asyncHandler(async (req, res) => {
-		const user = await User.findById(req.params.id);
+		const user = await User.findById(req.params.id).select('-password');
 		if (!user) {
 			logger.error(`User not found: ${req.params.id}`);
 			throw new CustomError('User not found', 404);
@@ -55,10 +55,12 @@ const userController = {
 			throw new CustomError('User not found', 404);
 		}
 		logger.info(`User updated successfully: ${req.params.id}`);
+
+		const userResponse = await User.findById(user._id).select('-password');
 		res.json(
 			{
 				message: 'User updated successfully.',
-				data: user
+				data: userResponse
 			}
 		);
 	}),
@@ -70,12 +72,18 @@ const userController = {
 			throw new CustomError('User not found', 404);
 		}
 		logger.info(`User deleted successfully: ${req.params.id}`);
-		res.json(
-			{
-				message: 'User deleted successfully.',
-				data: user
-			}
-		);
+
+		const responseData = {
+			_id: user._id,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			email: user.email
+		};
+
+		res.json({
+			message: 'User deleted successfully.',
+			data: responseData
+		});
 	})
 };
 
