@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import CustomError from '../../utils/errors/customErrors';
+import CustomError from '../../utils/errors/customError';
 
 const errorMiddleware = (err: Error, _req: Request, res: Response) => {
 	let statusCode = 500;
-	let message = 'Something went wrong';
+	let message = 'Internal Server Error';
 
 	if (err instanceof CustomError) {
 		statusCode = err.statusCode;
