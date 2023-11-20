@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 type AsyncHandler<T> = (_req: Request, _res: Response) => Promise<T>;
 
-const handleRequest = <T>(handler: AsyncHandler<T>) => async (req: Request, res: Response) => {
+const asyncHandler = <T>(handler: AsyncHandler<T>) => async (req: Request, res: Response) => {
 	try {
 		await handler(req, res);
 	} catch (error) {
@@ -16,4 +16,4 @@ const handleRequest = <T>(handler: AsyncHandler<T>) => async (req: Request, res:
 	}
 };
 
-export default handleRequest;
+export default asyncHandler;
