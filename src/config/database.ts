@@ -1,14 +1,15 @@
 import mongoose from 'mongoose';
+import logger from '../utils/log/logger';
 
 const connectDB = async () => {
 	try {
 		const connect = await mongoose.connect(process.env.MONGO_URI as string);
-		console.log(`MongoDB Connected to: ${connect.connection.host}`);
+		logger.info(`MongoDB Connected to: ${connect.connection.host}`);
 	} catch (error) {
 		if (error instanceof Error) {
-			console.error(`Error: ${error.message}`);
+			logger.error(`Error: ${error.message}`);
 		} else {
-			console.error('An unknown error occurred');
+			logger.error('An unknown error occurred');
 		}
 		process.exit(1);
 	}
