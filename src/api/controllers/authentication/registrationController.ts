@@ -1,8 +1,8 @@
-import handleRequest from '../../../utils/handlers/asyncHandler';
-import { checkIfEmailUnique } from '../../../utils/helpers/databaseHelpers';
+import jwt from 'jsonwebtoken';
 import User from '../../models/user';
 import userValidation from '../../validation/userValidation';
-import jwt from 'jsonwebtoken';
+import handleRequest from '../../../utils/handlers/asyncHandler';
+import checkIfEmailUnique from '../../../utils/helpers/checkIfEmailUniqueHelper';
 
 const registrationController = {
 	register: handleRequest(async (req, res) => {

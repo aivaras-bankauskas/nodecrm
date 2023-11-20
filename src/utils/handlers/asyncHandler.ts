@@ -10,7 +10,7 @@ const handleRequest = <T>(handler: AsyncHandler<T>) => async (req: Request, res:
 			if (error instanceof Error) {
 				res.status(400).json({ message: error.message });
 			} else {
-				res.status(500).json({ message: 'An unknown error occurred' });
+				res.status(500).json({ message: 'Internal server Error' });
 			}
 		}
 	}

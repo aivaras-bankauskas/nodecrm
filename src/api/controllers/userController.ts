@@ -1,17 +1,17 @@
 import bcrypt from 'bcrypt';
-import handleRequest from '../../utils/handlers/asyncHandler';
-import { checkIfEmailUnique } from '../../utils/helpers/databaseHelpers';
 import User from '../models/user';
 import userValidation from '../validation/userValidation';
+import asyncHandler from '../../utils/handlers/asyncHandler';
+import checkIfEmailUnique from '../../utils/helpers/checkIfEmailUniqueHelper';
 
 const userController = {
 
-	index: handleRequest(async (_req, res) => {
+	index: asyncHandler(async (_req, res) => {
 		const users = await User.find();
 		res.status(200).json({ data: users });
 	}),
 
-	show: handleRequest(async (req, res) => {
+	show: asyncHandler(async (req, res) => {
 		const user = await User.findById(req.params.id);
 		if (!user) {
 			res.status(404).json({ message: 'User not found' });
@@ -21,7 +21,7 @@ const userController = {
 		res.status(200).json({ data: user });
 	}),
 
-	update: handleRequest(async (req, res) => {
+	update: asyncHandler(async (req, res) => {
 		const currentUserId = req.params.id;
 
 		const { error } = userValidation(req.body);
@@ -60,7 +60,7 @@ const userController = {
 		);
 	}),
 
-	destroy: handleRequest(async (req, res) => {
+	destroy: asyncHandler(async (req, res) => {
 		const user = await User.findByIdAndDelete(req.params.id);
 		if (!user) {
 			res.status(404).json({ message: 'User not found' });

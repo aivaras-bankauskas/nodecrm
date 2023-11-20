@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import UserInterface from '../../interfaces/UserInterface';
 
-export const checkIfEmailUnique = async (
+const checkIfEmailUnique = async (
 	model: Model<UserInterface>,
 	email: string,
 	currentUserId: string | null = null
@@ -17,3 +17,5 @@ export const checkIfEmailUnique = async (
 		throw new Error('Email already taken');
 	}
 };
+
+export default checkIfEmailUnique;
