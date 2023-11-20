@@ -1,18 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-type AsyncHandler<T> = (_req: Request, _res: Response) => Promise<T>;
+type AsyncHandler<T> = (req: Request, res: Response, next: NextFunction) => Promise<T>;
 
-const handleRequest = <T>(handler: AsyncHandler<T>) => async (req: Request, res: Response) => {
-	try {
-		const result = await handler(req, res);
-		res.status(200).json(result);
-	} catch (error) {
-		if (error instanceof Error) {
-			res.status(400).json({ message: error.message });
-		} else {
-			res.status(500).json({ message: 'An unknown error occurred' });
+const asyncHandler = <T>(handler: AsyncHandler<T>) =>
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			await handler(req, res, next);
+		} catch (error) {
+			next(error);
 		}
-	}
-};
+	};
 
-export default handleRequest;
+export default asyncHandler;
