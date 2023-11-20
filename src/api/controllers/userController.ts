@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import handleRequest from '../../utils/handlers/asyncHandler';
 import { checkIfEmailUnique } from '../../utils/helpers/databaseHelpers';
 import { User, validate } from '../models/user';
@@ -6,19 +7,7 @@ const userController = {
 
 	index: handleRequest(async (_req, res) => {
 		const users = await User.find();
-		res.status(200).json(users);
-	}),
-
-	store: handleRequest(async (req, res) => {
-		const { error } = validate(req.body);
-		if (error) {
-			throw new Error(error.details[0].message);
-		}
-		await checkIfEmailUnique(User, req.body.email);
-
-		const user = new User(req.body);
-		await user.save();
-		res.status(201).json(user);
+		res.status(200).json({ data: users });
 	}),
 
 	show: handleRequest(async (req, res) => {
@@ -28,7 +17,7 @@ const userController = {
 
 			return;
 		}
-		res.status(200).json(user);
+		res.status(200).json({ data: user });
 	}),
 
 	update: handleRequest(async (req, res) => {
@@ -51,13 +40,23 @@ const userController = {
 			}
 		}
 
+		if (req.body.password) {
+			const salt = await bcrypt.genSalt(10);
+			req.body.password = await bcrypt.hash(req.body.password, salt);
+		}
+
 		const user = await User.findByIdAndUpdate(currentUserId, req.body, { new: true });
 		if (!user) {
 			res.status(404).json({ message: 'User not found' });
 
 			return;
 		}
-		res.json(user);
+		res.json(
+			{
+				message: 'User updated successfully.',
+				data: user
+			}
+		);
 	}),
 
 	destroy: handleRequest(async (req, res) => {
@@ -67,7 +66,12 @@ const userController = {
 
 			return;
 		}
-		res.json(user);
+		res.json(
+			{
+				message: 'User deleted successfully.',
+				data: user
+			}
+		);
 	})
 };
 
