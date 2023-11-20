@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../utils/errors/customError';
 
-const errorMiddleware = (err: Error, _req: Request, res: Response) => {
+const errorMiddleware = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
 	if (err instanceof CustomError) {
 
 		return res.status(err.statusCode).json({ message: err.message });
