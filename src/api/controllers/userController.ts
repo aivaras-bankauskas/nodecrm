@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 import handleRequest from '../../utils/handlers/asyncHandler';
 import { checkIfEmailUnique } from '../../utils/helpers/databaseHelpers';
-import { User, validate } from '../models/user';
+import User from '../models/user';
+import userValidation from '../validation/userValidation';
 
 const userController = {
 
@@ -23,7 +24,7 @@ const userController = {
 	update: handleRequest(async (req, res) => {
 		const currentUserId = req.params.id;
 
-		const { error } = validate(req.body);
+		const { error } = userValidation(req.body);
 		if (error) {
 			throw new Error(error.details[0].message);
 		}

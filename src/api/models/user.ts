@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Joi from 'joi';
 import bcrypt from 'bcrypt';
 import UserInterface from '../../interfaces/UserInterface';
 
@@ -11,6 +10,10 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function(next) {
+	if (this.isModified('email')) {
+		this.email = this.email.toLowerCase();
+	}
+
 	if (!this.isModified('password')) {
 		return next();
 	}
@@ -25,15 +28,6 @@ userSchema.pre('save', async function(next) {
 	}
 });
 
-export const User = mongoose.model<UserInterface>('User', userSchema);
+const User = mongoose.model<UserInterface>('User', userSchema);
 
-const validateUserSchema = Joi.object({
-	firstName: Joi.string().required().min(2),
-	lastName: Joi.string().required().min(2),
-	email: Joi.string().email().required(),
-	password: Joi.string().required().min(6)
-});
-
-export const validate = (user: UserInterface) => {
-	return validateUserSchema.validate(user);
-};
+export default User;
