@@ -33,7 +33,6 @@ module.exports = {
 	'rules': {
 		'curly': 'error',
 		'no-console': 'off',
-		'no-unused-vars': 'warn',
 		'space-infix-ops': 'error',
 		'no-multi-spaces': 'error',
 		'indent': ['error', 'tab'],
@@ -52,6 +51,7 @@ module.exports = {
 		'array-bracket-spacing': ['error', 'never'],
 		'object-curly-spacing': ['error', 'always'],
 		'no-multiple-empty-lines': ['error', { 'max': 1 }],
+		'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
 		'spaced-comment': ['error', 'always', { 'exceptions': ['-'] }],
 		'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
 		'padding-line-between-statements': ['error', { 'blankLine': 'always', 'prev': '*', 'next': 'return' }]
