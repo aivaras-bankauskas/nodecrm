@@ -2,13 +2,15 @@ import jwt from 'jsonwebtoken';
 import User from '../../models/user';
 import userValidation from '../../validation/userValidation';
 import asyncHandler from '../../../utils/handlers/asyncHandler';
+import CustomError from '../../../utils/errors/CustomError';
 import checkIfEmailUnique from '../../../utils/helpers/checkIfEmailUniqueHelper';
 
 const registrationController = {
 	register: asyncHandler(async (req, res) => {
 		const { error } = userValidation(req.body);
 		if (error) {
-			return res.status(400).json({ message: error.details[0].message });
+			// return res.status(400).json({ message: error.details[0].message });
+			throw new CustomError(error.details[0].message, 400);
 		}
 
 		await checkIfEmailUnique(User, req.body.email);

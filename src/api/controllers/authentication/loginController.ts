@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import User from '../../models/user';
-import CustomError from '../../../utils/errors/customError';
+import CustomError from '../../../utils/errors/CustomError';
 
 const loginController = {
 	async login(req: Request, res: Response, next: NextFunction) {

@@ -1,4 +1,5 @@
 import { Model } from 'mongoose';
+import CustomError from '../errors/CustomError';
 import UserInterface from '../../interfaces/UserInterface';
 
 const checkIfEmailUnique = async (
@@ -14,7 +15,7 @@ const checkIfEmailUnique = async (
 
 	const existingUser = await model.findOne(query);
 	if (existingUser) {
-		throw new Error('Email already taken');
+		throw new CustomError('Email already taken', 400);
 	}
 };
 
