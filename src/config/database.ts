@@ -6,11 +6,8 @@ const connectDB = async () => {
 		const connect = await mongoose.connect(process.env.MONGO_URI as string);
 		logger.info(`MongoDB Connected to: ${connect.connection.host}`);
 	} catch (error) {
-		if (error instanceof Error) {
-			logger.error(`Error: ${error.message}`);
-		} else {
-			logger.error('An unknown error occurred');
-		}
+		const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+		logger.error(`Error: ${errorMessage}`);
 		process.exit(1);
 	}
 };
