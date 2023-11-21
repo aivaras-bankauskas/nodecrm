@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import app from '../../../../src/app';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-describe('User Registration', () => {
+describe('registrationController', () => {
 	let mongoServer: MongoMemoryServer;
 
 	beforeAll(async () => {

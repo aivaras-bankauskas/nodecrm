@@ -4,7 +4,7 @@ import app from '../../../../src/app';
 import User from '../../../../src/api/models/user';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 
-describe('User Login', () => {
+describe('loginController', () => {
 	let mongoServer: MongoMemoryServer;
 
 	beforeAll(async () => {
