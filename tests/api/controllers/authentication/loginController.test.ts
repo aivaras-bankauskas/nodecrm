@@ -19,7 +19,7 @@ describe('loginController', () => {
 			firstName: 'Test',
 			lastName: 'User',
 			email: 'test@example.com',
-			password: 'password123'
+			password: 'test1234'
 		});
 		await user.save();
 	});
@@ -34,7 +34,7 @@ describe('loginController', () => {
 			.post('/api/login')
 			.send({
 				email: 'test@example.com',
-				password: 'password123'
+				password: 'test1234'
 			});
 
 		expect(res.statusCode).toEqual(200);
@@ -46,7 +46,7 @@ describe('loginController', () => {
 			.post('/api/login')
 			.send({
 				email: 'nonexistent@example.com',
-				password: 'password123'
+				password: 'test1234'
 			});
 
 		expect(res.statusCode).toEqual(401);
