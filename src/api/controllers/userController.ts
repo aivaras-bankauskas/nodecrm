@@ -27,21 +27,20 @@ const userController = {
 	update: asyncHandler(async (req, res) => {
 		const currentUserId = req.params.id;
 
+		const existingUser = await User.findById(currentUserId);
+		if (!existingUser) {
+			logger.error(`User not found: ${req.params.id}`);
+			throw new CustomError('User not found', 404);
+		}
+
 		const { error } = userValidation(req.body);
 		if (error) {
 			logger.error(`Error: ${error.details[0].message}`);
 			throw new CustomError(error.details[0].message, 400);
 		}
 
-		if (req.body.email) {
-			const existingUser = await User.findById(currentUserId);
-			if (!existingUser) {
-				logger.error(`User not found: ${req.params.id}`);
-				throw new CustomError('User not found', 404);
-			}
-			if (req.body.email !== existingUser.email) {
-				await checkIfEmailUnique(User, req.body.email, existingUser._id.toString());
-			}
+		if (req.body.email && req.body.email !== existingUser.email) {
+			await checkIfEmailUnique(User, req.body.email, existingUser._id.toString());
 		}
 
 		if (req.body.password) {
@@ -49,20 +48,13 @@ const userController = {
 			req.body.password = await bcrypt.hash(req.body.password, salt);
 		}
 
-		const user = await User.findByIdAndUpdate(currentUserId, req.body, { new: true });
-		if (!user) {
-			logger.error(`User not found: ${req.params.id}`);
-			throw new CustomError('User not found', 404);
-		}
-		logger.info(`User updated successfully: ${req.params.id}`);
+		const updatedUser = await User.findByIdAndUpdate(currentUserId, req.body, { new: true }).select('-password');
 
-		const userResponse = await User.findById(user._id).select('-password');
-		res.json(
-			{
-				message: 'User updated successfully.',
-				data: userResponse
-			}
-		);
+		logger.info(`User updated successfully: ${req.params.id}`);
+		res.json({
+			message: 'User updated successfully.',
+			data: updatedUser
+		});
 	}),
 
 	destroy: asyncHandler(async (req, res) => {
