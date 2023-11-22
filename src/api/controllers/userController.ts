@@ -10,16 +10,13 @@ import ExtendedRequestInterface from '../../interfaces/ExtendedRequestInterface'
 const userController = {
 
 	auth: asyncHandler(async (req: ExtendedRequestInterface, res) => {
-		if (!req.user) {
-			throw new CustomError('User not authenticated', 401);
-		}
-
-		const user = await User.findById(req.user._id).select('-password');
+		const userId = req.user!._id;
+		const user = await User.findById(userId).select('-password');
 		if (!user) {
-			logger.error(`User not found: ${req.user._id}`);
+			logger.error('User not found.');
 			throw new CustomError('User not found', 404);
 		}
-		logger.info(`Current user retrieved successfully: ${req.user._id}`);
+		logger.info(`Current user retrieved successfully: ${userId}`);
 		res.status(200).json({ data: user });
 	}),
 
@@ -32,7 +29,7 @@ const userController = {
 	show: asyncHandler(async (req, res) => {
 		const user = await User.findById(req.params.id).select('-password');
 		if (!user) {
-			logger.error(`User not found: ${req.params.id}`);
+			logger.error('User not found.');
 			throw new CustomError('User not found', 404);
 		}
 		logger.info(`User retrieved successfully: ${req.params.id}`);
@@ -44,7 +41,7 @@ const userController = {
 
 		const existingUser = await User.findById(currentUserId);
 		if (!existingUser) {
-			logger.error(`User not found: ${req.params.id}`);
+			logger.error('User not found.');
 			throw new CustomError('User not found', 404);
 		}
 
@@ -75,7 +72,7 @@ const userController = {
 	destroy: asyncHandler(async (req, res) => {
 		const user = await User.findByIdAndDelete(req.params.id);
 		if (!user) {
-			logger.error(`User not found: ${req.params.id}`);
+			logger.error('User not found.');
 			throw new CustomError('User not found', 404);
 		}
 		logger.info(`User deleted successfully: ${req.params.id}`);
