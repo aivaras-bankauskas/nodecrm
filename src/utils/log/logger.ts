@@ -21,7 +21,7 @@ const logger = createLogger({
 			)
 		}),
 		new DailyRotateFile({
-			filename: 'src/utils/log/logs/application-%DATE%.log',
+			filename: 'logs/application-%DATE%.log',
 			datePattern: 'YYYY-MM-DD',
 			zippedArchive: true,
 			maxSize: '20m',
@@ -31,7 +31,7 @@ const logger = createLogger({
 });
 
 logger.exceptions.handle(
-	new transports.File({ filename: 'src/utils/log/logs/exceptions.log' })
+	new transports.File({ filename: 'logs/exceptions.log' })
 );
 
 process.on('unhandledRejection', (ex) => {
