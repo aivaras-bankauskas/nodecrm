@@ -12,7 +12,7 @@ const authMiddleware = (req: ExtendedRequestInterface, res: Response, next: Next
 	if (!token) {
 		logger.error('Access denied. No token provided.');
 
-		return res.status(401).json({ message: 'Access denied. No token provided.' });
+		return res.status(401).json({ errorMessage: 'Access denied. No token provided.' });
 	}
 
 	try {
@@ -21,7 +21,7 @@ const authMiddleware = (req: ExtendedRequestInterface, res: Response, next: Next
 		next();
 	} catch (ex) {
 		logger.error('Invalid token.');
-		res.status(400).json({ message: 'Invalid token.' });
+		res.status(400).json({ errorMessage: 'Invalid token.' });
 	}
 };
 
