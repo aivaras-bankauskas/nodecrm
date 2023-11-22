@@ -34,6 +34,31 @@ describe('userController', () => {
 		await mongoServer.stop();
 	});
 
+	it('should authenticate a user', async () => {
+		if (!testUser || !testUser._id) {
+			throw new Error('Test user not properly initialized');
+		}
+		const res = await request(app)
+			.get('/api/auth-user')
+			.set('Authorization', `Bearer ${token}`);
+
+		expect(res.statusCode).toEqual(200);
+		expect(res.body).toHaveProperty('data');
+		expect(res.body.data).toHaveProperty('_id', testUser._id.toString());
+	});
+
+	it('should return 404 if the authenticated user is not found', async () => {
+		const nonExistentId = new mongoose.Types.ObjectId();
+		const nonExistentToken = jwt.sign({ _id: nonExistentId }, process.env.JWT_SECRET!, { expiresIn: '1h' });
+
+		const res = await request(app)
+			.get('/api/auth-user')
+			.set('Authorization', `Bearer ${nonExistentToken}`);
+
+		expect(res.statusCode).toEqual(404);
+		expect(res.body).toHaveProperty('errorMessage', 'User not found');
+	});
+
 	it('should retrieve all users', async () => {
 		const res = await request(app)
 			.get('/api/users')
