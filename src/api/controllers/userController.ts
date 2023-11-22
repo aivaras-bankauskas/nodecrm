@@ -5,8 +5,23 @@ import userValidation from '../validation/userValidation';
 import asyncHandler from '../../utils/handlers/asyncHandler';
 import CustomError from '../../utils/errors/CustomError';
 import checkIfEmailUnique from '../../utils/helpers/checkIfEmailUniqueHelper';
+import ExtendedRequestInterface from '../../interfaces/ExtendedRequestInterface';
 
 const userController = {
+
+	auth: asyncHandler(async (req: ExtendedRequestInterface, res) => {
+		if (!req.user) {
+			throw new CustomError('User not authenticated', 401);
+		}
+
+		const user = await User.findById(req.user._id).select('-password');
+		if (!user) {
+			logger.error(`User not found: ${req.user._id}`);
+			throw new CustomError('User not found', 404);
+		}
+		logger.info(`Current user retrieved successfully: ${req.user._id}`);
+		res.status(200).json({ data: user });
+	}),
 
 	index: asyncHandler(async (_req, res) => {
 		const users = await User.find().select('-password');
