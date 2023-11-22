@@ -10,13 +10,13 @@ const loginController = {
 		try {
 			const user = await User.findOne({ email: req.body.email });
 			if (!user) {
-				logger.error(`User not found: ${req.body.email}`);
+				logger.error('User not found.');
 				throw new CustomError('Invalid email or password.', 401);
 			}
 
 			const validPassword = await bcrypt.compare(req.body.password, user.password);
 			if (!validPassword) {
-				logger.error(`Invalid password: ${req.body.email}`);
+				logger.error('Invalid password.');
 				throw new CustomError('Invalid email or password.', 401);
 			}
 

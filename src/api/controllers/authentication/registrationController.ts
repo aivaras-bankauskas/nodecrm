@@ -10,7 +10,7 @@ const registrationController = {
 	register: asyncHandler(async (req, res) => {
 		const { error } = userValidation(req.body);
 		if (error) {
-			logger.error(`Error: ${error.details[0].message}`);
+			logger.error(`Error: ${error.details[0].message}.`);
 			throw new CustomError(error.details[0].message, 400);
 		}
 
