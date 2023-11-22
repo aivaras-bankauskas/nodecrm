@@ -38,7 +38,7 @@ describe('authMiddleware', () => {
 		authMiddleware(req, res, mockNext);
 
 		expect(res.status).toHaveBeenCalledWith(401);
-		expect(res.json).toHaveBeenCalledWith({ message: 'Access denied. No token provided.' });
+		expect(res.json).toHaveBeenCalledWith({ errorMessage: 'Access denied. No token provided.' });
 	});
 
 	it('should return 400 when an invalid token is provided', () => {
@@ -49,6 +49,6 @@ describe('authMiddleware', () => {
 		authMiddleware(req, res, mockNext);
 
 		expect(res.status).toHaveBeenCalledWith(400);
-		expect(res.json).toHaveBeenCalledWith({ message: 'Invalid token.' });
+		expect(res.json).toHaveBeenCalledWith({ errorMessage: 'Invalid token.' });
 	});
 });
