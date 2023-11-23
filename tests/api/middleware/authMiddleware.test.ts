@@ -3,10 +3,6 @@ import { Response } from 'express';
 import authMiddleware from '../../../src/api/middleware/authMiddleware';
 import ExtendedRequestInterface from '../../../src/interfaces/ExtendedRequestInterface';
 
-jest.mock('../../../src/config/logger', () => ({
-	error: jest.fn()
-}));
-
 const mockRequest = (): ExtendedRequestInterface => {
 	const req = {} as ExtendedRequestInterface;
 	req.header = jest.fn().mockReturnValue(`Bearer ${jwt.sign({ _id: '123' }, process.env.JWT_SECRET!)}`);
