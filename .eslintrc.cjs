@@ -52,6 +52,7 @@ module.exports = {
 		'object-curly-spacing': ['error', 'always'],
 		'no-multiple-empty-lines': ['error', { 'max': 1 }],
 		'no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+		'@typescript-eslint/explicit-function-return-type': 'warn',
 		'spaced-comment': ['error', 'always', { 'exceptions': ['-'] }],
 		'key-spacing': ['error', { 'beforeColon': false, 'afterColon': true }],
 		'padding-line-between-statements': ['error', { 'blankLine': 'always', 'prev': '*', 'next': 'return' }]

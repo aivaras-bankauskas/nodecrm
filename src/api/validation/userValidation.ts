@@ -12,7 +12,7 @@ const validateUserSchema = Joi.object({
 		})
 });
 
-const userValidation = (user: UserInterface) => {
+const userValidation = (user: UserInterface): Joi.ValidationResult<UserInterface> => {
 	return validateUserSchema.validate(user, { abortEarly: false });
 };
 

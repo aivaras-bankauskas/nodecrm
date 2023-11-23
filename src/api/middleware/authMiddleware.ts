@@ -3,7 +3,7 @@ import logger from '../../config/logger';
 import { Response, NextFunction } from 'express';
 import ExtendedRequestInterface from '../../interfaces/ExtendedRequestInterface';
 
-const authMiddleware = (req: ExtendedRequestInterface, res: Response, next: NextFunction) => {
+const authMiddleware = (req: ExtendedRequestInterface, res: Response, next: NextFunction): void => {
 	let token = req.header('Authorization');
 	if (token && token.startsWith('Bearer ')) {
 		token = token.slice(7, token.length);
@@ -12,7 +12,9 @@ const authMiddleware = (req: ExtendedRequestInterface, res: Response, next: Next
 	if (!token) {
 		logger.error('Access denied. No token provided.');
 
-		return res.status(401).json({ errorMessage: 'Access denied. No token provided.' });
+		res.status(401).json({ errorMessage: 'Access denied. No token provided.' });
+
+		return;
 	}
 
 	try {

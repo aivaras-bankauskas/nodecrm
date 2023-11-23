@@ -3,7 +3,7 @@ import { Response } from 'express';
 import authMiddleware from '../../../src/api/middleware/authMiddleware';
 import ExtendedRequestInterface from '../../../src/interfaces/ExtendedRequestInterface';
 
-jest.mock('../../../src/utils/log/logger', () => ({
+jest.mock('../../../src/config/logger', () => ({
 	error: jest.fn()
 }));
 

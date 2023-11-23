@@ -6,7 +6,7 @@ import logger from '../../../config/logger';
 import CustomError from '../../../utils/errors/CustomError';
 
 const loginController = {
-	async login(req: Request, res: Response, next: NextFunction) {
+	async login(req: Request, res: Response, next: NextFunction): Promise<void> {
 		try {
 			const user = await User.findOne({ email: req.body.email });
 			if (!user) {

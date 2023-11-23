@@ -13,7 +13,7 @@ describe('logger', () => {
 		});
 
 		expect(() => {
-			require('../../../src/utils/log/logger');
+			require('../../src/config/logger');
 		}).toThrow('unhandled rejection');
 
 		expect(mockProcessOn).toHaveBeenCalledWith('unhandledRejection', expect.any(Function));
