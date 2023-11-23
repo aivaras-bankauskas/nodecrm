@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import logger from '../../utils/log/logger';
+import logger from '../../config/logger';
 import { Response, NextFunction } from 'express';
 import ExtendedRequestInterface from '../../interfaces/ExtendedRequestInterface';
 

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../../models/user';
-import logger from '../../../utils/log/logger';
+import logger from '../../../config/logger';
 import CustomError from '../../../utils/errors/CustomError';
 import userValidation from '../../validation/userValidation';
 import asyncHandler from '../../../utils/handlers/asyncHandler';

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../utils/errors/CustomError';
-import logger from '../../utils/log/logger';
+import logger from '../../config/logger';
 
 const errorMiddleware = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
 	if (err instanceof CustomError) {

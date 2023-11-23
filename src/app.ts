@@ -4,11 +4,11 @@ import { globalLimiter } from './config/rateLimits';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import logger from './utils/log/logger';
+import logger from './config/logger';
 import connectDB from './config/database';
 import apiRoutes from './api/routes/api';
 import errorMiddleware from './api/middleware/errorMiddleware';
-import { swaggerSpec, swaggerUi } from './utils/docs/swagger';
+import { swaggerSpec, swaggerUi } from './config/swagger';
 
 dotenv.config();
 const app = express();
