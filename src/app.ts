@@ -1,7 +1,9 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import morgan from 'morgan';
+import { globalLimiter } from './config/rateLimits';
 import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
 import logger from './utils/log/logger';
 import connectDB from './config/database';
 import apiRoutes from './api/routes/api';
@@ -13,7 +15,11 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+app.use(helmet());
+
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
+
+app.use(globalLimiter);
 
 app.use(express.json());
 
