@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import hashPassword from '../../utils/helpers/passwordHashing';
 import UserInterface from '../../interfaces/UserInterface';
 
 const userSchema = new mongoose.Schema<UserInterface>({
@@ -15,8 +15,7 @@ userSchema.pre('save', async function() {
 	}
 
 	if (this.isModified('password')) {
-		const salt = await bcrypt.genSalt(10);
-		this.password = await bcrypt.hash(this.password, salt);
+		this.password = await hashPassword(this.password);
 	}
 });
 

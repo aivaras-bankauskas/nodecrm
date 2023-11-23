@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import hashPassword from '../../utils/helpers/passwordHashing';
 import User from '../models/user';
 import logger from '../../config/logger';
 import userValidation from '../validation/userValidation';
@@ -56,8 +56,7 @@ const userController = {
 		}
 
 		if (req.body.password) {
-			const salt = await bcrypt.genSalt(10);
-			req.body.password = await bcrypt.hash(req.body.password, salt);
+			req.body.password = await hashPassword(req.body.password);
 		}
 
 		const updatedUser = await User.findByIdAndUpdate(currentUserId, req.body, { new: true }).select('-password');
