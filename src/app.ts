@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import { globalLimiter } from './config/rateLimits';
 import cors from 'cors';
+import corsOptions from './config/corsOptions';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import logger from './config/logger';
@@ -17,7 +18,7 @@ connectDB();
 
 app.use(helmet());
 
-app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(cors(corsOptions));
 
 app.use(globalLimiter);
 
