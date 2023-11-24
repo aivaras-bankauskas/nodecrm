@@ -8,7 +8,7 @@ const swaggerDefinition = {
 		version: '1.0.0',
 		description: 'This is a REST API documentation for the Node CRM project.'
 	},
-	host: 'localhost:3000',
+	host: process.env.SWAGGER_HOST!,
 	basePath: '/',
 	components: {
 		securitySchemes: {
