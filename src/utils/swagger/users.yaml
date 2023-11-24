@@ -1,4 +1,16 @@
-/users:
+/api/auth-user:
+  get:
+    summary: Get authenticated user
+    description: Get the details of the currently authenticated user.
+    tags: [Users]
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Current user retrieved successfully.
+      '401':
+        description: User not found.
+/api/users:
   get:
     summary: Retrieve All Users
     description: This endpoint retrieves a list of all users in the system.
@@ -7,10 +19,10 @@
       - bearerAuth: []
     responses:
       '200':
-        description: Successful operation, returns a list of users.
+        description: Users retrieved successfully.
       '401':
-        description: Unauthorized access, valid authentication credentials are required.
-/users/{id}:
+        description: Unauthorized access.
+/api/users/{id}:
   parameters:
     - name: id
       in: path
@@ -26,9 +38,9 @@
       - bearerAuth: []
     responses:
       '200':
-        description: Successful operation, returns user details.
+        description: User retrieved successfully.
       '404':
-        description: User not found, invalid ID.
+        description: User not found.
   put:
     summary: Update a User
     description: This endpoint updates the details of a specific user by their ID.
@@ -44,16 +56,23 @@
             properties:
               firstName:
                 type: string
+                default: Roy
               lastName:
                 type: string
+                default: Doe
               email:
                 type: string
                 format: email
+                default: roy.doe@example.com
+              password:
+                type: string
+                format: password
+                default: test1234
     responses:
       '200':
-        description: Successful operation, user details updated.
+        description: User updated successfully.
       '400':
-        description: Bad request, check the request body and parameters.
+        description: User not found.
   delete:
     summary: Delete a User
     description: This endpoint deletes a specific user by their ID.
@@ -62,6 +81,6 @@
       - bearerAuth: []
     responses:
       '200':
-        description: Successful operation, user deleted.
+        description: User deleted successfully.
       '404':
-        description: User not found, invalid ID.
+        description: User not found.

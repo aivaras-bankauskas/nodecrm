@@ -9,7 +9,16 @@ const swaggerDefinition = {
 		description: 'This is a REST API documentation for the Node CRM project.'
 	},
 	host: 'localhost:3000',
-	basePath: '/'
+	basePath: '/',
+	components: {
+		securitySchemes: {
+			bearerAuth: {
+				type: 'http',
+				scheme: 'bearer',
+				bearerFormat: 'JWT'
+			}
+		}
+	}
 };
 
 const options = {

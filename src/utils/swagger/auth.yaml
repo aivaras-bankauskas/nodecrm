@@ -1,4 +1,4 @@
-/register:
+/api/register:
   post:
     summary: User registration
     description: Register a new user.
@@ -17,20 +17,24 @@
             properties:
               firstName:
                 type: string
+                default: Bob
               lastName:
                 type: string
+                default: Doe
               email:
                 type: string
                 format: email
+                default: bob.doe@example.com
               password:
                 type: string
                 format: password
+                default: test1234
     responses:
       201:
         description: User created successfully
       400:
         description: Bad request
-/login:
+/api/login:
   post:
     summary: User login
     description: Authenticate a user and return a JWT token.
@@ -48,10 +52,12 @@
               email:
                 type: string
                 format: email
+                default: bob.doe@example.com
               password:
                 type: string
+                default: test1234
     responses:
       200:
-        description: Successfully authenticated
+        description: User logged in successfully.
       401:
-        description: Unauthorized
+        description: Invalid email or password.
