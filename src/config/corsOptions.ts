@@ -1,7 +1,7 @@
 import { CorsOptions } from 'cors';
 import CustomError from '../utils/errors/CustomError';
 
-const allowedOrigins: string[] = ['http://localhost:5174', 'http://localhost:3000'];
+const allowedOrigins: string[] = [process.env.CORS_ORIGIN!, process.env.SWAGGER_HOST!];
 
 const corsOptions: CorsOptions = {
 	origin: (origin, callback) => {
