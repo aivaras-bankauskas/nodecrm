@@ -8,7 +8,7 @@ import registrationController from '../controllers/authentication/registrationCo
 router.post('/login', loginLimiter, loginController.login);
 router.post('/register', registerLimiter, registrationController.register);
 
-router.get('/users', userController.index);
+router.get('/users', authMiddleware, userController.index);
 router.get('/users/:id', authMiddleware, userController.show);
 router.get('/auth-user', authMiddleware, userController.auth);
 router.put('/users/:id', authMiddleware, userController.update);
